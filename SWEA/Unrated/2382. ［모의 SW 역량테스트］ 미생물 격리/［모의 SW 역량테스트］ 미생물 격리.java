@@ -5,7 +5,6 @@ import java.util.*;
 class Solution
 {
 	    static int N,M,K;
-    static int[][] graph;
     static List<Node> arr;
     static int[] dx= {0,-1,1,0,0}; //상,하,좌,우
     static int[] dy= {0,0,0,-1,1};
@@ -53,7 +52,6 @@ class Solution
             M = Integer.parseInt(st.nextToken()); //종료시간
             K = Integer.parseInt(st.nextToken()); //미생물 군집 개수
 
-            graph = new int[N][N];
             arr = new ArrayList<>();
             // 1. 최초 미생물 저장
             for (int i = 0; i < K; i++) {
