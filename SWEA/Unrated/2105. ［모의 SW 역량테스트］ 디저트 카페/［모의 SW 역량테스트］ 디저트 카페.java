@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 class Solution
 {
-	static int N;
+	    static int N;
     static int[][] map;
     static Node startDessert;
     static int maxAns;
@@ -22,16 +22,6 @@ class Solution
             this.dessert = dessert;
             this.d = d;
         }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    ", dessert=" + dessert +
-                    ", d=" + d +
-                    '}';
-        }
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
@@ -45,7 +35,6 @@ class Solution
             directionArr = new ArrayList<ArrayList<Integer>>();
             for (int i = 0; i < 4; i++) {
                 directionArr.add(new ArrayList<>());
-                // System.out.println(directionArr.toString());
             }
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 2; j++) {
@@ -53,7 +42,6 @@ class Solution
                 }
             }
             directionArr.get(3).add(3);
-            // directionArr.get(3).add(0);
 
             for (int i = 0; i < N; i++) {
                 st = new StringTokenizer(br.readLine());
@@ -66,20 +54,14 @@ class Solution
                 for (int j = 1; j < N-1; j++) {
                     // 오른쪽 아래 시작
                     startDessert = new Node(i,j,map[i][j],0);
-                    maxAns = Math.max(maxAns,DFS(startDessert,new boolean[N][N],new ArrayList<>()));
-                    // System.out.println(i+" "+j+" "+maxAns);
+                    maxAns = Math.max(maxAns,DFS(startDessert,new ArrayList<>()));
                 }
             }
             System.out.println("#"+(t+1)+" "+maxAns);
         }
     }
-    static int DFS(Node n, boolean[][] visited, List<Integer> dessertArr){
-        // visited[n.x][n.y] = true;
+    static int DFS(Node n,List<Integer> dessertArr){
         dessertArr.add(map[n.x][n.y]); //디저트 넣기
-        // System.out.println(n);
-
-        // 기저조건
-        // list안에 최소 4개 이상이 있어야함!! 아니면 -1로 리턴하기
 
         int MAX = -1;
         for(int d : directionArr.get(n.d)) {
@@ -111,21 +93,19 @@ class Solution
                 if(d==1) continue;
             }
 
-
+            // 기저조건
+            // list안에 최소 4개 이상이 있어야함!! 아니면 -1로 리턴하기
             if (dessertArr.size() > 1 && (startDessert.x == xi && startDessert.y == yi)) {
                 if (dessertArr.size() >= 4) {
-                    // System.out.println(dessertArr.toString());
                     return dessertArr.size();
                 }
             }
 
-            if (visited[xi][yi]) continue;
             // 같은 숫자의 디저트이면 넘어감
             if (dessertArr.contains(map[xi][yi])) continue;
 
-            MAX = Math.max(MAX, DFS(new Node(xi, yi, map[xi][yi], d), visited, dessertArr));
+            MAX = Math.max(MAX, DFS(new Node(xi, yi, map[xi][yi], d), dessertArr));
 
-            // visited[n.x][n.y] = false;
             //맨 마지막 인덱스의 값 빼냄
             dessertArr.remove(dessertArr.size() - 1);
         }
