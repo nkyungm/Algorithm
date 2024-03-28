@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
@@ -25,13 +24,6 @@ public class Main {
             return this.idx - o.idx;
         }
 
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "x=" + x +
-                    ", idx=" + idx +
-                    '}';
-        }
     }
     
 	public static void main(String[] args) throws IOException{
@@ -52,10 +44,12 @@ public class Main {
         BFS();
 	}
 	
-	
+	// 런타임 에러 났던 이유 : return -1로 할경우 정상적이지 못한 결과값으로 인식해 런타임 에러날 수 있음
 	static void BFS(){
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        boolean[][] visited = new boolean[1001][1001];
+        
+        // visted 방문처리 하는 이유 : 중복 제거하기 위해
+        boolean[][] visited = new boolean[1001][51];
         pq.add(new Node(S,0));
         visited[S][0] = true;
 
