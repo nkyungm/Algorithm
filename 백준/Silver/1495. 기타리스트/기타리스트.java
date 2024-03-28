@@ -8,6 +8,7 @@ public class Main {
 	static int N,S,M;
     static int[] V;
     static boolean[][] dp;
+
     
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -25,7 +26,17 @@ public class Main {
             V[i] = Integer.parseInt(st.nextToken());
         }
 
-        DP(0,S);
+        
+        dp[0][S] = true;
+        // Bottom-Up 방식
+        for (int i = 1; i <= N; i++) {
+			for (int j = 0; j <= M; j++) {
+				if(!dp[i-1][j]) continue;
+				if(j-V[i-1] >=0) dp[i][j-V[i-1]] = true;
+				if(j+V[i-1] <=M) dp[i][j+V[i-1]] = true;
+			}
+		}
+        
         int ans =-1;
         for (int i = 0; i <= M; i++) {
 			if(dp[N][i]) ans = i;
@@ -33,18 +44,5 @@ public class Main {
         System.out.println(ans);
 	}
 	
-	static void DP(int idx,int volum) {
-		if(idx > N) return;
-		if(dp[idx][volum]) return;
-		
-		dp[idx][volum] = true;
-		
-		if(volum-V[idx] >=0) {
-			DP(idx+1,volum-V[idx]);
-		}
-		if(volum+V[idx] <=M) {
-			DP(idx+1,volum+V[idx]);
-		}
-		return;
-	}
+
 }
