@@ -1,8 +1,8 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
+        StringBuffer sb = new StringBuffer();
 
         int N = Integer.parseInt(br.readLine());
         // 입력된 값을 저장할 배열
@@ -45,7 +46,7 @@ public class Main {
                 LISArr[i] = idx;
             }
         }
-        System.out.println(len);
+        sb.append(len).append("\n");
 
         // LIS 배열 찾기 (역추적)
         int n = len-1;
@@ -59,8 +60,9 @@ public class Main {
         }
 
         for (int i = list.size()-1; i >=0; i--) {
-            System.out.print(list.get(i)+" ");
+        	sb.append(list.get(i)).append(" ");
         }
+        System.out.println(sb);
     }
 
     // lower_bound 이분탐색
