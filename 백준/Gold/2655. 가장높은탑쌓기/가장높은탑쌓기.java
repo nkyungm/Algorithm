@@ -31,7 +31,6 @@ public class Main {
 		// memo 배열
 		int[][] memo = new int[N][2];
 		Box[] boxs = new Box[N];
-//		Arrays.fill(memo, 1);
 		
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -85,7 +84,6 @@ public class Main {
 					memo[i][1] = length+memo[j][1];
 					idx = j;
 				}
-				// memo[i][0] = Math.max(memo[i][0],memo[j][0]+1);
 			}
 			memo[i][0] = idx;
 			max = Math.max(max, memo[i][1]);
@@ -103,10 +101,13 @@ public class Main {
 			}
 			idx = n;
 		}
-		System.out.println(arr.size());
+
+		sb.append(arr.size()).append("\n");
 		for (int i = arr.size()-1; i >=0; i--) {
-			System.out.println(arr.get(i));
+			sb.append(arr.get(i)).append("\n");
 		}
+		
+		System.out.println(sb);
 	}
 }
 
