@@ -28,7 +28,6 @@ class Solution {
             answer++;
         }
         
-        
         return answer;
     }
     // 이분탐색(상한)
