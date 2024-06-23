@@ -15,19 +15,16 @@ class Solution {
 
     public int solution(int[] A, int[] B) {
         int answer = 0;
+
+        Arrays.sort(A);
         Arrays.sort(B);
-        int size = A.length;
-        
-        // int배열에서 ArrayList배열로 변환
-        for(int i:B) arr.add(i);
-        
-        for(int i=0;i<size;i++){
-            int target = upperBound(0,arr.size(),A[i]);
-            if(target >= arr.size()) continue;
-            arr.remove(target);
-            answer++;
+        for (int i = A.length - 1, j = B.length - 1; i >= 0; i--) {
+            if(A[i] < B[j]) {
+                answer++;
+                j--;
+            }
         }
-        
+
         return answer;
     }
     // 이분탐색(상한)
