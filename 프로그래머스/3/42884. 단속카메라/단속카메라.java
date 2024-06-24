@@ -13,16 +13,11 @@ class Solution {
         int routesSize = routes.length;
 
         // 주의) 2차원 정렬시 Comparator따로 사용해야함
-        Arrays.sort(routes,new Comparator<int[]>(){
-            @Override
-            public int compare(int[] o1,int[] o2){
-                return o1[1]-o2[1];
-            }
-        });
+        Arrays.sort(routes, (o1, o2) -> o1[1] - o2[1]);
         
         int maxValue = routes[0][1];
         for(int i=1;i<routesSize;i++){
-            if(maxValue >= routes[i][0] && maxValue <= routes[i][1]) continue;
+            if(maxValue >= routes[i][0]) continue;
             answer++;
             maxValue = routes[i][1];
         }
