@@ -1,47 +1,40 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static class Person implements Comparable<Person> {
-        int i,age;
-        String name;
-
-        public Person(int i, int age, String name) {
-            this.i = i;
-            this.age = age;
-            this.name = name;
-        }
-
-        @Override
-        public int compareTo(Person o) {
-            if(this.age == o.age){
-                return this.i - o.i;
-            }
-            return this.age - o.age;
-        }
-
-    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st =null;
+        StringTokenizer st = null;
+        StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        Person[] arr = new Person[N];
-
-        for (int i = 0; i <N ; i++) {
+        Person[] list = new Person[N];
+        for(int i=0;i<N;i++){
             st = new StringTokenizer(br.readLine());
-            Person p = new Person(i,Integer.parseInt(st.nextToken()),st.nextToken());
-            arr[i] = p;
+            int pOld = Integer.parseInt(st.nextToken());
+            String pName = st.nextToken();
+            list[i] = new Person(i,pOld,pName);
         }
-        Arrays.sort(arr);
+        Arrays.sort(list,(o1,o2)-> (o1.old == o2.old) ? (o1.idx - o2.idx) : (o1.old - o2.old));
 
-        for (int i = 0; i < N; i++) {
-            Person p = arr[i];
-            System.out.println(p.age+" "+p.name);
+        for(int i=0;i<N;i++){
+            sb.append(list[i].old);
+            sb.append(" ");
+            sb.append(list[i].name);
+            sb.append("\n");
+        }
+
+        System.out.println(sb);
+    }
+    static class Person{
+        int idx;
+        int old;
+        String name;
+
+        public Person(int idx,int old,String name){
+            this.idx = idx;
+            this.old = old;
+            this.name = name;
         }
     }
 }
