@@ -1,40 +1,36 @@
-import java.io.*;
 import java.util.*;
-
+import java.io.*;
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        Person[] list = new Person[N];
+        List<Person> list = new ArrayList<>();
         for(int i=0;i<N;i++){
             st = new StringTokenizer(br.readLine());
-            int pOld = Integer.parseInt(st.nextToken());
-            String pName = st.nextToken();
-            list[i] = new Person(i,pOld,pName);
+            list.add(new Person(i,Integer.parseInt(st.nextToken()),st.nextToken()));
         }
-        Arrays.sort(list,(o1,o2)-> (o1.old == o2.old) ? (o1.idx - o2.idx) : (o1.old - o2.old));
+        Collections.sort(list,(o1,o2)
+                ->(o1.age == o2.age) ? o1.idx-o2.idx : o1.age - o2.age);
 
         for(int i=0;i<N;i++){
-            sb.append(list[i].old);
-            sb.append(" ");
-            sb.append(list[i].name);
+            sb.append(list.get(i).age).append(" ").append(list.get(i).name);
             sb.append("\n");
         }
-
         System.out.println(sb);
+
+
     }
     static class Person{
         int idx;
-        int old;
+        int age;
         String name;
-
-        public Person(int idx,int old,String name){
-            this.idx = idx;
-            this.old = old;
-            this.name = name;
+        Person(int idx,int age,String name){
+            this.idx =idx;
+            this.age =age;
+            this.name =name;
         }
     }
 }
