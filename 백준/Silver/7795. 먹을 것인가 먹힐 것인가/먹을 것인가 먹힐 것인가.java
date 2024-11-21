@@ -1,5 +1,9 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
 public class Main {
     static int A;
     static int B;
@@ -25,34 +29,19 @@ public class Main {
             for(int i=0;i<B;i++) Barr[i] = Integer.parseInt(st.nextToken());
             Arrays.sort(Barr);
 
-            for(int i=0;i<B;i++){
-                int index = binarySearch(0,A,Barr[i]);
-                // System.out.println(index);
-                answer += (A-index);
+            // 깨달은점
+            // 오름차순으로 정렬했기 떄문에 한번 걸러진 것은 처음부터 시작안해도 된다.
+            int idx = 0;
+            for(int i=0;i<A;i++){
+                int target = Aarr[i];
+                while(idx < B && Barr[idx] < target) idx++;
+                if(idx <= B) answer+= idx;
             }
-            sb.append(answer).append("\n");
 
-//            if(A<B){
-//
-//            }else{
-//
-//            }
+            sb.append(answer).append("\n");
         }
 
         System.out.println(sb);
-    }
-    // 이진탐색(upper_bound)
-    static int binarySearch(int left,int right,int target){
-        int mid = 0;
-        while(left < right){
-            mid = (left+right)/2;
-            if(Aarr[mid] > target){
-                 right = mid;
-            }else{
-                left = mid+1;
-            }
-        }
-        return left;
     }
 
 }
