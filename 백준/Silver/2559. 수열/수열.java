@@ -1,5 +1,8 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
 public class Main {
     public static void main(String[] args) throws IOException{
         BufferedReader br  =new BufferedReader(new InputStreamReader(System.in));
@@ -9,13 +12,11 @@ public class Main {
         int K = Integer.parseInt(st.nextToken());
         int answer =0;
         int[] arr = new int[N];
-        int temp = 0;
 
         st = new StringTokenizer(br.readLine());
-        for(int i=0;i<N;i++){
-            arr[i] = Integer.parseInt(st.nextToken());
-            arr[i] += temp;
-            temp = arr[i];
+        arr[0] = Integer.parseInt(st.nextToken());
+        for(int i=1;i<N;i++){
+            arr[i] = Integer.parseInt(st.nextToken()) + arr[i-1];
         }
 
         answer = arr[K-1];
