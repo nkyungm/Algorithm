@@ -1,4 +1,3 @@
-import java.util.*;
 import java.io.*;
 public class Main {
     public static void main(String[] args)throws IOException{
@@ -7,49 +6,17 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
         String s = br.readLine();
-        int star = 0;
-        boolean flag;
+        // 별표 앞 뒤로 나누기
+        String[] split = s.split("\\*");
+        String start = split[0];
+        String end = split[1];
 
-        // 별 찾기
-        for(int i = 0;i<s.length();i++){
-            if(s.charAt(i) != '*') continue;
-            star = i;
-            break;
-        }
-
-        for(int n =0;n<N;n++){
+        for(int i=0;i<N;i++){
             String s1 = br.readLine();
-            flag = true;
-
-            // 처음 체크
-            if(s1.length() < s.length()-1) flag = false;
-            if(star >= s1.length()) flag = false;
-
-            // 앞에서 부터
-            if(flag){
-                for(int i=0;i<star;i++){
-                    if(s.charAt(i) == s1.charAt(i)) continue;
-                    flag = false;
-                    break;
-                }
-            }
-
-            // 중간 체크
-            if(flag){
-                // 뒤에서 부터
-                int j = s1.length()-1;
-                for(int i=s.length()-1;i>star;i--){
-                    if(s.charAt(i) == s1.charAt(j)){
-                        j--;
-                        continue;
-                    }
-                    flag = false;
-                    break;
-                }
-            }
-
-            if(flag) sb.append("DA").append("\n");
-            else sb.append("NE").append("\n");
+            // 맞는지 체크
+            if(s1.startsWith(start) && s1.endsWith(end) && s1.length() >= start.length()+end.length())
+                sb.append("DA\n");
+            else sb.append("NE\n");
         }
 
         System.out.println(sb);
