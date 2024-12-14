@@ -17,7 +17,6 @@ public class Main {
                 st.nextToken();
                 String key = st.nextToken();
                 map.put(key,map.getOrDefault(key,0)+1);
-
             }
             cnt = 1;
             // map별로 value +1 을 cnt에 곱하기
