@@ -7,24 +7,28 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
-        boolean[] notVisited =  new boolean[M];
         int[] arr = new int[N];
         int answer = 0;
 
         st = new StringTokenizer(br.readLine());
         for(int i=0;i<N;i++){
             arr[i] = Integer.parseInt(st.nextToken());
-            if(arr[i] >= M) continue;
-            notVisited[arr[i]] = true;
         }
         Arrays.sort(arr);
 
-        for(int i=0;i<N;i++){
-            if(M/2 < arr[i]) break;
-            if(!notVisited[arr[i]] || !notVisited[M-arr[i]] || arr[i] == M-arr[i]) continue;
-            answer++;
+        // 투포인터
+        int start= 0,end = N-1;
+        int sum;
+        while(start!=end){
+            sum = arr[start] + arr[end];
+            // 합해서 M보다 작으면 start 올리기
+            if(sum < M) start++;
+            else {
+                if(sum == M) answer++;
+                end--;
+            }
         }
-
+        
         System.out.println(answer);
     }
 }
