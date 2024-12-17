@@ -30,9 +30,9 @@ public class Main {
         });
 
         for(int key : keySet){
-            String k = String.valueOf(key);
-            k += " ";
-            sb.append(k.repeat(map.get(key)));
+            for(int i = 0;i<map.get(key);i++){
+                sb.append(key).append(" ");
+            }
         }
         System.out.println(sb);
     }
