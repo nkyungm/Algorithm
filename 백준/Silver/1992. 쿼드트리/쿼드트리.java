@@ -1,42 +1,40 @@
 import java.util.*;
 import java.io.*;
 public class Main {
-    static int[][] graph;
-    static StringBuffer sb = new StringBuffer();
+    static StringBuilder sb = new StringBuilder();
+    static int[][] arr;
     public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        graph = new int[N][N];
+        arr = new int[N][N];
 
         for(int i=0;i<N;i++){
-            String s = br.readLine();
-            for(int j=0;j<N;j++){
-                char c = s.charAt(j);
-                if(c=='1') graph[i][j] = 1;
-                else graph[i][j] = 0;
-            }
+            char[] s = br.readLine().toCharArray();
+            for(int j=0;j<N;j++) arr[i][j] = s[j]-'0'; // 시간 줄임
         }
+
         quadtree(0,0,N);
         System.out.println(sb);
     }
-    static void quadtree(int r, int c,int n){
-        if(check(r,c,n)){
-            sb.append(graph[r][c]);
+    static void quadtree(int x,int y,int size){
+        if(check(x,y,size)) {
+            sb.append(arr[x][y]);
             return;
         }
         sb.append("(");
-        quadtree(r,c,n/2);
-        quadtree(r,c+n/2,n/2);
-        quadtree(r+n/2,c,n/2);
-        quadtree(r+n/2,c+n/2,n/2);
+        quadtree(x,y,size/2);
+        quadtree(x,y+size/2,size/2);
+        quadtree(x+size/2,y,size/2);
+        quadtree(x+size/2,y+size/2,size/2);
         sb.append(")");
     }
-    static boolean check(int r, int c, int n){
-        int result = graph[r][c];
-        for(int i=r;i<r+n;i++){
-            for(int j=c;j<c+n;j++){
-                if(result!=graph[i][j]) return false;
+    static boolean check(int x,int y,int size){
+        int color = arr[x][y];
+        for(int i=x;i<x+size;i++){
+            for(int j=y;j<y+size;j++){
+                if(color == arr[i][j]) continue;
+                return false;
             }
         }
         return true;
