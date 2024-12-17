@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
@@ -20,8 +18,13 @@ public class Main {
         }
 
         List<Integer> keySet = new ArrayList<>(map.keySet());
-        keySet.sort((o1,o2) -> map.get(o2).compareTo(map.get(o1)));
-        
+        keySet.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return map.get(o2).compareTo(map.get(o1));
+            }
+        });
+
         for(int key : keySet){
             for(int i=0;i<map.get(key);i++){
                 sb.append(key).append(" ");
