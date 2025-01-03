@@ -2,7 +2,23 @@ import java.util.*;
 import java.io.*;
 public class Main {
     static StringBuilder sbb = new StringBuilder();
-    static ArrayList<String> answer = new ArrayList<>();
+    static ArrayList<Element> answer = new ArrayList<>();
+
+    static class Element implements Comparable<Element> {
+        String value;
+
+        Element(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public int compareTo(Element o) {
+            if (o.value.length() != this.value.length()) {
+                return this.value.length() - o.value.length();
+            }
+            return this.value.compareTo(o.value);
+        }
+    }
     public static void main(String[] args)throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb =new StringBuilder();
@@ -24,13 +40,10 @@ public class Main {
             if(sbb.length() != 0) go();
         }
         // 정렬
-        answer.sort((a1,a2) ->{
-            if(a1.length() == a2.length()) return a1.compareTo(a2);
-            else return a1.length() - a2.length();
-        });
+        Collections.sort(answer);
 
         // 출력
-        for (String s : answer) sb.append(s).append("\n");
+        for (Element s : answer) sb.append(s.value).append("\n");
 
         System.out.println(sb);
     }
@@ -45,7 +58,7 @@ public class Main {
         }
         // 길이가 0인경우 "0" 넣기
         if(sbb.length()==0) sbb.append("0");
-        answer.add(sbb.toString());
+        answer.add(new Element(sbb.toString()));
         sbb =new StringBuilder();
     }
 }
