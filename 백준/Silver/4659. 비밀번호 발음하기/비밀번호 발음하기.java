@@ -22,31 +22,28 @@ public class Main {
             int mo=0, ja = 0;
 
             for(int i=0;i<arr.length;i++){
-                //1번 조건
-                if(set.contains(arr[i])) flag = true;
-                //2번 조건
+                //1번 조건 & 2번 조건
                 if(set.contains(arr[i])) {
+                    flag = true;
                     mo++;
                     ja = 0;
-                }else{
+                } else{
                     ja++;
                     mo=0;
                 }
                 if(mo == 3 || ja == 3){
-                    sb.append("<").append(s).append("> is not acceptable.\n");
                     end = true;
                     break;
                 }
                 // 3번 조건
                 if(i==arr.length-1 || arr[i] == 'e' || arr[i] =='o') continue;
                 if(arr[i] != arr[i+1]) continue;
-                sb.append("<").append(s).append("> is not acceptable.\n");
                 end = true;
                 break;
             }
             // 1번 종료 조건
-            if(end) continue;
-            if(flag) sb.append("<").append(s).append("> is acceptable.\n");
+            if(!flag) end = true;
+            if(!end) sb.append("<").append(s).append("> is acceptable.\n");
             else sb.append("<").append(s).append("> is not acceptable.\n");
         }
         System.out.println(sb);
