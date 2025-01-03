@@ -43,8 +43,10 @@ public class Main {
             }
             // 1번 종료 조건
             if(!flag) end = true;
-            if(!end) sb.append("<").append(s).append("> is acceptable.\n");
-            else sb.append("<").append(s).append("> is not acceptable.\n");
+            sb.append("<").append(s).append("> is ");
+            if(!end) sb.append("acceptable.");
+            else sb.append("not acceptable.");
+            sb.append("\n");
         }
         System.out.println(sb);
     }
