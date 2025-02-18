@@ -11,11 +11,7 @@ class Solution {
             int i = commands[t][0];
             int j = commands[t][1];
             int k = commands[t][2];
-            
-            int[] arr = new int[j-i+1];
-            for(int p=i-1;p<j;p++){
-                arr[p-(i-1)] = array[p];
-            }
+            int[] arr = Arrays.copyOfRange(array,i-1,j);
             Arrays.sort(arr);
             answer[t] = arr[k-1];
         }
