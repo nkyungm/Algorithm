@@ -1,39 +1,34 @@
 import java.util.*;
-
-/**
-BFS로 -,+ 둘다 넣어서 구현
-*/
-
-
+import java.io.*;
 class Solution {
     public int solution(int[] numbers, int target) {
-        int answer = 0;
-        answer = bfs(numbers,target);
+        int answer = BFS(numbers,target);
+        // 해당 개수 구하기 : DFS, BFS
+        // visited 방문배열을 만들어서 큐에 없으면 종료
+        // 큐넣을때) 방문 체크하고 false면, 다음인덱스 값 +,- 큐에 넣기
+        // 그냥 큐넣을때 마지막 노드일 경우, 개수 계산
+        
         return answer;
     }
-    static int bfs(int[] numbers,int target){
+    static int BFS(int[] numbers,int target){
+        int num=0;
+        // 큐 생성
         Queue<int[]> queue = new ArrayDeque<>();
-        int L = numbers.length;
-        boolean[] visited= new boolean[L];
-        int cnt=0;
+        // boolean[] visited = new boolean[numbers.length];
+        // 첫번째 요소 넣기
         queue.add(new int[]{0,numbers[0]});
         queue.add(new int[]{0,-numbers[0]});
-        
+        // visited[0] = true;
         while(!queue.isEmpty()){
-            int[] nArr = queue.poll();
-            // 정답조건
-            
-            if(nArr[0]==L-1){
-                if(nArr[1]==target) cnt++;
+            int[] v = queue.poll();
+            // 확인 조건
+            if(v[0]==numbers.length-1) {
+                if(v[1]==target) num++;
                 continue;
             }
-            
-            // + 인 경우
-            queue.add(new int[]{nArr[0]+1,nArr[1]+numbers[nArr[0]+1]});
-            // -인 경우
-            queue.add(new int[]{nArr[0]+1,nArr[1]-numbers[nArr[0]+1]});
-            
+            queue.add(new int[]{v[0]+1,v[1]+numbers[v[0]+1]});
+            queue.add(new int[]{v[0]+1,v[1]-numbers[v[0]+1]});
         }
-        return cnt;
+        return num;
     }
 }
