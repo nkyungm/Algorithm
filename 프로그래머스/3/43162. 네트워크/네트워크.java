@@ -1,49 +1,36 @@
 import java.util.*;
-
-// 1. for문돌리면서 1부터 n까지 차례대로 방문
-// 2. bfs를 돌면서 방문처리
-// 3. bfs 끝나면 cnt ++
-// 4. visited 배열이 다 true가 될때까지 반복
-
 class Solution {
-    
-    static boolean[] visited; // 방문처리 배열
-    
+    static boolean[] visited;
     public int solution(int n, int[][] computers) {
         int answer = 0;
-        int num =0;
         visited = new boolean[n];
-        
-        while(num!=-1){
-            bfs(num,n,computers);
+        // 개수 계산 : BFS, DFS
+        // 여기서 for문 돌리면서 계속 진행
+        // 0~n-1까지 배열값이 1이고 방문하지 않았으면 bfs 진행
+        for(int i=0;i<n;i++){
+            // 다른 노드 for문 돌리면서 1이고 방문안했으면 진행
+            if(visited[i]) continue;
+            BFS(i,n,computers);
             answer++;
-            num = checkVisited(n);
         }
         
         return answer;
     }
-    
-    static void bfs(int num,int n,int[][] computers){
+    static void BFS(int i,int n,int[][] computers){
         Queue<Integer> queue = new ArrayDeque<>();
-        queue.add(num);
-        visited[num] = true;
+        queue.add(i);
+        visited[i] = true;
         
         while(!queue.isEmpty()){
             int v = queue.poll();
-            for(int i=0;i<n;i++){
-                if(computers[v][i]==0) continue;
-                if(visited[i]) continue;
-                queue.add(i);
-                visited[i] = true;
+            
+            for(int j=0;j<n;j++){
+                // for문 돌면서 방문했거나 0이면 continue;
+                if(visited[j]) continue;
+                if(computers[v][j] ==0) continue;
+                visited[j] = true;
+                queue.add(j);
             }
         }
-    }
-    
-    // 전체 방문처리 여부 확인 함수
-    static int checkVisited(int n){
-        for(int i=0;i<n;i++){
-            if(!visited[i]) return i;
-        }
-        return -1;
     }
 }
