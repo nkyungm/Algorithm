@@ -10,27 +10,21 @@ class Solution {
         for(int i=0;i<n;i++){
             // 다른 노드 for문 돌리면서 1이고 방문안했으면 진행
             if(visited[i]) continue;
-            BFS(i,n,computers);
+            DFS(i,n,computers);
             answer++;
         }
         
         return answer;
     }
-    static void BFS(int i,int n,int[][] computers){
-        Queue<Integer> queue = new ArrayDeque<>();
-        queue.add(i);
-        visited[i] = true;
+    static void DFS(int v,int n,int[][] computers){
+        // 종료 조건
+        if(visited[v]) return;
         
-        while(!queue.isEmpty()){
-            int v = queue.poll();
-            
-            for(int j=0;j<n;j++){
-                // for문 돌면서 방문했거나 0이면 continue;
-                if(visited[j]) continue;
-                if(computers[v][j] ==0) continue;
-                visited[j] = true;
-                queue.add(j);
-            }
+        visited[v] = true;
+        for(int i=0;i<n;i++){
+            if(visited[i]) continue;
+            if(computers[v][i] ==0) continue;
+            DFS(i,n,computers);
         }
     }
 }
