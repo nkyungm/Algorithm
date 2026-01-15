@@ -1,52 +1,57 @@
 import java.util.*;
+import java.lang.*;
+
+// 알고리즘 : HashMap
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        List<Integer> answer = new ArrayList<>();
+        int[] answer = {};
         
-        // map으로 장르별 재생횟수 저장
-        HashMap<String,Integer> map = new HashMap<>();
-        // 장르별 고유번호도 해시맵으로 저장
-        HashMap<String,List<Music>> map2 = new HashMap<>();
+        HashMap<String,Long> map = new HashMap<>();
+        HashMap<String,ArrayList<Music>> memo = new HashMap<>();
         
-        for(int i=0;i<genres.length;i++){
-            String genre = genres[i];
-            int play = plays[i];
-            map.put(genre,map.getOrDefault(genre,0)+play);
-            // 리스트로 넣는 방법
-            map2.computeIfAbsent(genre,g->new ArrayList<>())
-                .add(new Music(i,play));
-        }
-        
-        // 장르 재생횟수별 내림차순 정렬
-        List<Map.Entry<String,Integer>> list 
-            = new ArrayList<>(map.entrySet());
-        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        
-        // 장르별 노래 내림차순 정렬
-        for(Map.Entry<String,Integer> entry: list){
-            String genre = entry.getKey();
-            List<Music> mList = map2.get(genre);
-            mList.sort((x1,x2) -> {
-                if(x1.cnt == x2.cnt){
-                    return x1.idx - x2.idx; 
-                }
-                return x2.cnt - x1.cnt;
-            });
-            for(int i=0;i<Math.min(2,mList.size());i++){
-                answer.add(mList.get(i).idx);
+        for(int i=0;i<plays.length;i++){
+            map.put(genres[i], map.getOrDefault(genres[i], 0L) + plays[i]);
+            if(memo.containsKey(genres[i])) {
+                memo.get(genres[i]).add(new Music(i,plays[i]));
+            }else{
+                ArrayList<Music> arr = new ArrayList<>();
+                arr.add(new Music(i,plays[i]));
+                memo.put(genres[i],arr);
             }
         }
         
-        return answer.stream().mapToInt(Integer::intValue).toArray();
-    }
-    class Music{
-        int idx;
-        int cnt;
+        // 1. value값을 기준으로 HashMap 정렬
+        // keySet : key만 받아오기
+        List<String> keySet = new ArrayList<>(map.keySet());
+        // 내림차순 정렬
+        keySet.sort((o1,o2) -> map.get(o2).compareTo(map.get(o1)));
         
-        Music(int idx,int cnt){
+        List<Integer> temp = new ArrayList<>();
+        for(String key : keySet){
+            List<Music> musicList = memo.get(key);
+            Collections.sort(musicList);
+            
+            int size = Math.min(2,musicList.size());
+            for(int i=0;i<size;i++){
+                temp.add(musicList.get(i).idx);
+            }
+        }
+        
+        answer = temp.stream().mapToInt(i->i).toArray();
+        
+        return answer;
+    }
+    static class Music implements Comparable<Music>{
+        int idx,play;
+        public Music(int idx,int play){
             this.idx = idx;
-            this.cnt = cnt;
+            this.play = play;
+        }
+        
+        public int compareTo(Music m2){
+            if(this.play == m2.play) return this.idx - m2.idx;
+            return m2.play - this.play;
         }
     }
 }
