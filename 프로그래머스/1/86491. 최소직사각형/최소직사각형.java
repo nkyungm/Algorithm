@@ -1,32 +1,29 @@
 import java.util.*;
-import java.math.*;
 class Solution {
     public int solution(int[][] sizes) {
         int answer = 0;
-        int max_row = 0;
-        int max_col = 0;
-        
-        // 무조건 가로나 세로를 더 큰것으로 만들어서
-        // 단순 비교하면서 더 큰것 갱신
+        int max_w =1;
+        int max_h =1;
+        int w = 0;
+        int h = 0;
         
         for(int i=0;i<sizes.length;i++){
-            int row = sizes[i][0];
-            int col = sizes[i][1];
-            if(row < col){
-                int temp = row;
-                row = col;
-                col = temp;
+            int w1 = sizes[i][0]; // 큰거
+            int h1 = sizes[i][1]; // 작은거
+            
+            if(w1 >= h1){
+                w = w1;
+                h = h1;
+            }else{
+                w = h1;
+                h = w1;
             }
             
-            if(row > max_row){
-                max_row = row;
-            }
-            if(col > max_col){
-                max_col = col;
-            }
+            if(w > max_w) max_w = w;
+            if(h > max_h) max_h = h;
         }
-        answer = max_row * max_col;
         
+        answer = max_w*max_h;
         
         return answer;
     }
