@@ -1,28 +1,25 @@
 import java.util.*;
-import java.lang.*;
-
 class Solution {
     public int[] solution(int brown, int yellow) {
-        int[] answer = {};
-        //yellow를 row,col 경우의 수를 돌아가면서
-        //yellow에 해당하는 brown수가 맞으면 return
-        int n = go(brown,yellow);
-        answer = new int[]{(yellow/n)+2,n+2};
-        return answer;
-    }
-    // 약수 구하기
-    static int go(int brown,int yellow){
-        int sqrt = (int)Math.sqrt(yellow);
-        // ArrayList<Integer> arr = new ArrayList<>();
-        for(int i=1;i<=sqrt;i++){
-            if(yellow%i!=0) continue;
-            // arr.add(i);
-            int n1 = i;
-            int n2 = yellow/i;
-            if(((n2*2) + ((n1+2)*2)) != brown) continue;
-            return i;
+        int[] answer = new int[2];
+        
+        // y 6*4 
+        // b (y가로+2)*2 + (y세로*2)
+        for(int i=1;i<=(int)Math.sqrt(yellow);i++){
+            if(yellow%i != 0) continue;
+            answer[0] = yellow/i;
+            answer[1] = i;
+            
+            int yellow_cnt = (answer[0]+2)*2 + answer[1]*2;
+            if(yellow_cnt == brown){
+                answer[0]+=2;
+                answer[1]+=2;
+                return answer;
+            }
         }
-        return 0;
-        // System.out.println(arr);
+        
+        // return 가로 +2, 세로+2
+        
+        return answer;
     }
 }
