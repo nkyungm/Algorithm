@@ -28,24 +28,20 @@ public class Main {
             arr[p1][p2] = true;
             arr[p2][p1] = true;
         }
-
-        int ans = BFS();
+        int ans = DFS(start,0);
         System.out.println(ans);
 
     }
-    private static int BFS(){
-        Deque<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[]{start,0});
-        visited[start] = true;
+    private static int DFS(int v, int consu){
+        visited[v] = true;
+        if(v == end) return consu;
 
-        while(!queue.isEmpty()){
-            int[] v = queue.poll();
-            if(v[0] == end) return v[1];
-
-            for(int i=1;i<=N;i++){
-                if(arr[v[0]][i] && !visited[i]){
-                    visited[i] = true;
-                    queue.add(new int[]{i,v[1]+1});
+        for(int i=1;i<=N;i++){
+            if(arr[v][i] && !visited[i]){
+                // 값 저장 필요 : 저장하지 않으면 호출한 상위 함수 결과 모름
+                int result = DFS(i,consu+1);
+                if(result != -1){
+                    return result;
                 }
             }
         }
