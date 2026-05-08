@@ -1,25 +1,28 @@
 import java.util.*;
+import java.io.*;
+
 class Solution {
-    boolean[] visited;
-    int answer = 0;
+    static boolean[] visited;
+    static int answer;
     public int solution(int k, int[][] dungeons) {
-        // lcs (x) : 길이 정해져 있음
-        // 비트마스크 dp, dfs
-        
+        answer = -1;
+        // 최소 피로도, 소모 피로도
+        // 완탐 백트래킹 DFS
         visited = new boolean[dungeons.length];
-        dfs(k,dungeons,0);
+        
+        DFS(k,0,dungeons);
         
         return answer;
     }
-    // 현재 피로도, 탐험한 개수
-    private void dfs(int k, int[][] dungeons, int cnt){
-        answer = Math.max(cnt,answer);
+    // 던전 위치, 현재 피로도, 탐험 개수
+    private static void DFS(int k,int cnt,int[][] dungeons){
+        answer = Math.max(answer,cnt);
         
         for(int i=0;i<dungeons.length;i++){
-            if(!visited[i] && k>= dungeons[i][0] ){
-                // k-=dungeons[i][1]; // 피로도 감소
+            // 방문하지 않았고 피로도가 가능하면
+            if(!visited[i] && dungeons[i][0] <= k){
                 visited[i] = true;
-                dfs(k-dungeons[i][1],dungeons,cnt+1);
+                DFS(k-dungeons[i][1],cnt+1,dungeons);
                 visited[i] = false;
             }
         }
