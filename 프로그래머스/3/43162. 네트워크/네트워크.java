@@ -1,30 +1,37 @@
+import java.io.*;
 import java.util.*;
 class Solution {
+    static int ans = 0;
     static boolean[] visited;
     public int solution(int n, int[][] computers) {
-        int answer = 0;
+        // bfs 
+        // 개수 체크 : bfs 처음 들어갈때 체크
+        // bfs를 n번 들어가면서 boolean으로 이미 true면 pass
+        
         visited = new boolean[n];
-        // 개수 계산 : BFS, DFS
-        // 여기서 for문 돌리면서 계속 진행
-        // 0~n-1까지 배열값이 1이고 방문하지 않았으면 bfs 진행
+        
         for(int i=0;i<n;i++){
-            // 다른 노드 for문 돌리면서 1이고 방문안했으면 진행
             if(visited[i]) continue;
-            DFS(i,n,computers);
-            answer++;
+            BFS(n,computers,i);
+            ans++;
         }
         
-        return answer;
+        return ans;
     }
-    static void DFS(int v,int n,int[][] computers){
-        // 종료 조건
-        if(visited[v]) return;
+    static void BFS(int n, int[][] computers, int cp){
+        Deque<Integer> queue= new ArrayDeque<>();
+        queue.add(cp);
+        visited[cp] = true;
         
-        visited[v] = true;
-        for(int i=0;i<n;i++){
-            if(visited[i]) continue;
-            if(computers[v][i] ==0) continue;
-            DFS(i,n,computers);
+        while(!queue.isEmpty()){
+            int v = queue.poll();
+            // 해당 연결된 부분 돌아가면서 큐 삽입
+            for(int i=0;i<n;i++){
+                if(v==i || computers[v][i] == 0) continue;
+                if(visited[i]) continue;
+                queue.add(i);
+                visited[i] = true;
+            }
         }
     }
 }
