@@ -1,55 +1,58 @@
 import java.util.*;
-import java.io.*;
 
 class Solution {
-    // BFS
-    // 0: 벽이 있는 자리, 1: 벽없는 자리
-    static int[] dx = {-1,1,0,0};
-    static int[] dy = {0,0,1,-1};
+    boolean[][] visited;
+    int[] dx = new int[]{-1,1,0,0};
+    int[] dy = new int[]{0,0,-1,1};
+    int n;
+    int m;
     public int solution(int[][] maps) {
+        // BFS
         int answer = -1;
-        int n = maps.length;
-        int m = maps[0].length;
+        n = maps.length;
+        m = maps[0].length;
+        visited = new boolean[n][m];
         
-        // BFS로 최소 거리 구하기
-        answer = BFS(maps,n,m);
+        answer = BFS(maps,0,0);
         
         return answer;
     }
-    private static int BFS(int[][] maps,int n,int m){
-        Deque<Robot> queue = new ArrayDeque<>();
-        boolean[][] visited= new boolean[n][m];
-        queue.add(new Robot(0,0,1));
-        visited[0][0] = true;
+    int BFS(int[][] maps,int x,int y){
+        Deque<Robot> queue= new ArrayDeque<>();
+        queue.add(new Robot(x,y,1));
+        visited[x][y] = true;
         
         while(!queue.isEmpty()){
-            Robot robot = queue.poll();
-            if(robot.x == n-1 && robot.y == m-1){
-                return robot.cnt;
+            Robot r = queue.poll();
+            
+            // 상대 팀 진영(n-1,n-1)에 도착했는지 확인
+            if(r.x == n-1 && r.y == m-1){
+                return r.cnt;
             }
             
             for(int i=0;i<4;i++){
-                int xi = dx[i] + robot.x;
-                int yi = dy[i] + robot.y;
-                if(xi < 0 || xi >=n || yi<0 || yi>=m) continue;
-                if(!visited[xi][yi] && maps[xi][yi]==1){
-                    visited[xi][yi] = true;
-                    queue.add(new Robot(xi,yi,robot.cnt+1));
-                }
+                int xi = dx[i] + r.x;
+                int yi = dy[i] + r.y;
+                // 벗어나는지 확인
+                if(xi <0 || xi>=n || yi<0 || yi>=m) continue;
+                // 벽으로 막혀있지 않은지, 방문했는지 확인
+                if(visited[xi][yi] || maps[xi][yi] ==0) continue;
+                queue.add(new Robot(xi,yi,r.cnt+1));
+                visited[xi][yi] = true;
             }
         }
         
         return -1;
+        
     }
-    static class Robot{
+    class Robot{
         int x;
         int y;
         int cnt;
-        
         Robot(int x,int y,int cnt){
             this.x = x;
-            this.y = y;
-            this.cnt = cnt;
+            this.y= y;
+            this.cnt =cnt;
         }
     }
 }
