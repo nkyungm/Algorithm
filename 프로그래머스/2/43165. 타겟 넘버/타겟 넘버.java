@@ -12,7 +12,7 @@ class Solution {
         
         return ans;
     }
-    static void DFS(int[] numbers, int n,int target, int cur,int sum){
+    void DFS(int[] numbers, int n,int target, int cur,int sum){
         // 종료조건(순서가 n일때 , target과 같으면 ans++)
         if(cur == n-1){
             if(target == sum) ans++;
