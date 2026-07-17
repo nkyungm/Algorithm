@@ -1,21 +1,26 @@
 import java.util.*;
-import java.io.*;
+
 class Solution {
-    static int num=0;
+    static int ans=0;
     public int solution(int[] numbers, int target) {
-        DFS(-1,0,numbers,target);
-        // 해당 개수 구하기 : DFS, BFS
-        int answer = num;
-        return answer;
+        
+        // 그래프 완탐 (DFS)
+        // DFS 함수 안에서 +,-로 둘다 넣기
+        // 종료조건(순서가 n일때 , target과 같으면 ans++)
+        int n = numbers.length;
+        DFS(numbers,n,target,-1,0);
+        
+        return ans;
     }
-    static void DFS(int idx,int total,int[] numbers,int target){
-        // 종료 조건
-        if(idx == numbers.length-1){
-            if(total == target) num++;
+    static void DFS(int[] numbers, int n,int target, int cur,int sum){
+        // 종료조건(순서가 n일때 , target과 같으면 ans++)
+        if(cur == n-1){
+            if(target == sum) ans++;
             return;
         }
-        // 반복 (그 뒤의 인덱스 +,- 더해 재귀돌림)
-        DFS(idx+1,total+numbers[idx+1],numbers,target);
-        DFS(idx+1,total-numbers[idx+1],numbers,target);
+        
+        // 재귀 조건
+        DFS(numbers,n,target,cur+1,sum+numbers[cur+1]);
+        DFS(numbers,n,target,cur+1,sum-numbers[cur+1]);
     }
 }
