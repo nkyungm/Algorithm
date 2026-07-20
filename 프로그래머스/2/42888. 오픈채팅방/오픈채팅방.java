@@ -10,31 +10,27 @@ class Solution {
         
         // Hash Map에 {id, nickname} 저장
         int n =0;
-        for(int i=0;i<record.length;i++){
-            st = new StringTokenizer(record[i]);
-            String comm = st.nextToken();
-            String id = st.nextToken();
-            String nickname = "";
+        for(String r : record){
+            String[] split = r.split(" ");
+            String comm = split[0];
+            String id = split[1];
+            
             if(!comm.equals("Leave")){
-                nickname = st.nextToken();
+                String nickname = split[2];
                 map.put(id,nickname);
             }
             
-            if(!comm.equals("Change")){
+            if(comm.equals("Enter") || comm.equals("Leave")){
                 n++;
             }
         }
         
         answer = new String[n];
         int j=0;
-        for(int i=0;i<record.length;i++){
-            st = new StringTokenizer(record[i]);
-            String comm = st.nextToken();
-            String id = st.nextToken();
-            String nickname = "";
-            if(!comm.equals("Leave")){
-                nickname = st.nextToken();
-            }
+        for(String r : record){
+            String[] split = r.split(" ");
+            String comm = split[0];
+            String id = split[1];
             
             if(comm.equals("Change")) continue;
             if(comm.equals("Enter")){
