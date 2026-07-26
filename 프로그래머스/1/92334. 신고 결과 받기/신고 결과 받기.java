@@ -4,10 +4,6 @@ class Solution {
     public int[] solution(String[] id_list, String[] report, int k) {
         int[] answer = new int[id_list.length];
         StringTokenizer st = null;
-        // muzi - frodo, neo
-        // apeach - frodo, muzi
-        // frodo - neo
-        
         // muzi가 어떤 사람 신고했는지 저장 필요 (중복 제거)
         // => HashMap<String,Set<String>>
         // 해당 id가 몇번 신고당했는지 확인 필요
