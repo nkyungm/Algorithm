@@ -2,46 +2,46 @@ import java.util.*;
 class Solution {
     public int[] solution(String[] gems) {
         int[] answer = {};
+        // 투포인터 : 리스트 순차적 접근하면서 두개의 점 위치 기록하며 처리
+        // 1. hashmap으로 총 개수 파악
+        HashMap<String,Integer> gemMap = new HashMap<>();
+        HashMap<String,Integer> curMap = new HashMap<>();
+        int totalCnt = 0;
+        
+        for(String gem : gems){
+            gemMap.put(gem, gemMap.getOrDefault(gem,0)+1);
+        }
+        totalCnt = gemMap.size();
+        // 2. start, end 0에서 시작
+        int start = 0;
+        int end = 0;
         int ansStart = 0;
         int ansEnd = gems.length;
-        // 전체 gems 저장 hashMap
-        // 1. 총 보석의 개수 저장
-        // 2. 뒤에서 빼다가 더이상 못빼면 앞에서 빼기
-        int totalCnt = 0;
-        HashMap<String,Integer> gemsMap = new HashMap<>();
-        HashMap<String,Integer> map = new HashMap<>();
-        // 저장
-        for(String gem : gems){
-            gemsMap.put(gem, gemsMap.getOrDefault(gem,0)+1);
-        }
-        // 보석 전체 종류
-        totalCnt = gemsMap.size();
         
-        // 둘다 왼쪽에서 시작
-        int start =0;
-        int end = 0;
-        
-        // 투포인터
         while(true){
-            // map이 모든 종류가 포함되는지 확인 -> 아니면 end++
-            if(map.size() < totalCnt){
-                if(end == gems.length) break;
-                map.put(gems[end],map.getOrDefault(gems[end],0)+1);
+            // 3.1 총 종류가 다 포함되지 않으면 end ++
+            if(curMap.size() < totalCnt){
+                // 종료조건
+                if(end == gems.length) {
+                    break;
+                }
+                curMap.put(gems[end],curMap.getOrDefault(gems[end],0)+1);
                 end++;
-            }else{ // 모든 종류인 경우
-                // 현재 구간(start ~ end-1)이 정답 후보, 정답갱신
-                if(ansEnd - ansStart > end -start){
+            }else{ // 3.2 종류가 다 채워지면 start ++, 최적의 값 저장
+                // 최적의 값 저장
+                if(ansEnd - ansStart > end - start){
                     ansStart = start;
                     ansEnd = end;
                 }
-                // 왼쪽 제거
-                if(map.get(gems[start]) ==1){
-                    map.remove(gems[start]);
+                // start 이동하면서 보석 빼기
+                if(curMap.get(gems[start]) > 1 ){
+                    curMap.put(gems[start],curMap.get(gems[start])-1);
                 }else{
-                    map.put(gems[start],map.get(gems[start])-1);
+                    curMap.remove(gems[start]);
                 }
                 start++;
             }
+            
         }
         
         answer = new int[]{ansStart+1,ansEnd};
