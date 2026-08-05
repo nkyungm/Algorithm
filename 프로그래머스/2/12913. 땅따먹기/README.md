@@ -1,0 +1,64 @@
+# [level 2] 땅따먹기 - 12913 
+
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12913) 
+
+### 성능 요약
+
+메모리: 91.1 MB, 시간: 15.80 ms
+
+### 구분
+
+코딩테스트 연습 > 연습문제
+
+### 채점결과
+
+정확성: 59.8<br/>효율성: 40.2<br/>합계: 100.0 / 100.0
+
+### 제출 일자
+
+2026년 08월 05일 20:17:23
+
+### 문제 설명
+
+<p style="user-select: auto !important;">땅따먹기 게임을 하려고 합니다. 땅따먹기 게임의 땅(land)은 총 N행 4열로 이루어져 있고, 모든 칸에는 점수가 쓰여 있습니다. 1행부터 땅을 밟으며 한 행씩 내려올 때, 각 행의 4칸 중 한 칸만 밟으면서 내려와야 합니다. <strong style="user-select: auto !important;">단, 땅따먹기 게임에는 한 행씩 내려올 때, 같은 열을 연속해서 밟을 수 없는 특수 규칙이 있습니다.</strong> </p>
+
+<p style="user-select: auto !important;">예를 들면, </p>
+
+<p style="user-select: auto !important;">| 1 | 2 | 3 | 5 |</p>
+
+<p style="user-select: auto !important;">| 5 | 6 | 7 | 8 |</p>
+
+<p style="user-select: auto !important;">| 4 | 3 | 2 | 1 |</p>
+
+<p style="user-select: auto !important;">로 땅이 주어졌다면, 1행에서 네번째 칸 (5)를 밟았으면, 2행의 네번째 칸 (8)은 밟을 수 없습니다. </p>
+
+<p style="user-select: auto !important;">마지막 행까지 모두 내려왔을 때, 얻을 수 있는 점수의 최대값을 return하는 solution 함수를 완성해 주세요. 위 예의 경우, 1행의 네번째 칸 (5), 2행의 세번째 칸 (7), 3행의 첫번째 칸 (4) 땅을 밟아 16점이 최고점이 되므로 16을 return 하면 됩니다.</p>
+
+<h5 style="user-select: auto !important;">제한사항</h5>
+
+<ul style="user-select: auto !important;">
+<li style="user-select: auto !important;">행의 개수 N : 100,000 이하의 자연수</li>
+<li style="user-select: auto !important;">열의 개수는 4개이고, 땅(land)은 2차원 배열로 주어집니다.</li>
+<li style="user-select: auto !important;">점수 : 100 이하의 자연수</li>
+</ul>
+
+<h5 style="user-select: auto !important;">입출력 예</h5>
+<table class="table" style="user-select: auto !important;">
+        <thead style="user-select: auto !important;"><tr style="user-select: auto !important;">
+<th style="user-select: auto !important;">land</th>
+<th style="user-select: auto !important;">answer</th>
+</tr>
+</thead>
+        <tbody style="user-select: auto !important;"><tr style="user-select: auto !important;">
+<td style="user-select: auto !important;">[[1,2,3,5],[5,6,7,8],[4,3,2,1]]</td>
+<td style="user-select: auto !important;">16</td>
+</tr>
+</tbody>
+      </table>
+<h5 style="user-select: auto !important;">입출력 예 설명</h5>
+
+<p style="user-select: auto !important;">입출력 예 #1<br style="user-select: auto !important;">
+문제의 예시와 같습니다.</p>
+
+
+> 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
