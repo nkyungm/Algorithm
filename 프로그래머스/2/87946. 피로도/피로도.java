@@ -1,28 +1,27 @@
 import java.util.*;
-import java.io.*;
-
 class Solution {
     static boolean[] visited;
     static int answer;
     public int solution(int k, int[][] dungeons) {
         answer = -1;
-        // 최소 피로도, 소모 피로도
-        // 완탐 백트래킹 DFS
-        visited = new boolean[dungeons.length];
+        int N = dungeons.length;
+        visited = new boolean[N];
         
-        DFS(k,0,dungeons);
+        go(k,dungeons,0);
         
         return answer;
     }
-    // 던전 위치, 현재 피로도, 탐험 개수
-    private static void DFS(int k,int cnt,int[][] dungeons){
-        answer = Math.max(answer,cnt);
+    static void go(int k, int[][] dungeons, int cnt){
+        if(cnt == dungeons.length){
+            return;
+        }
         
         for(int i=0;i<dungeons.length;i++){
-            // 방문하지 않았고 피로도가 가능하면
-            if(!visited[i] && dungeons[i][0] <= k){
+            // 조건 : 방문하지 않았거나, 최소 필요 피로도가 k보다 작거나 같은 경우
+            if(!visited[i] && k >= dungeons[i][0]){
                 visited[i] = true;
-                DFS(k-dungeons[i][1],cnt+1,dungeons);
+                answer = Math.max(answer,cnt+1);
+                go(k-dungeons[i][1],dungeons,cnt+1);
                 visited[i] = false;
             }
         }
