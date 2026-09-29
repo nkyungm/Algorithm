@@ -29,18 +29,18 @@ class Solution {
     }
     static int bfs(int n, int v){
         boolean[] visited = new boolean[n+1];
-        Deque<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[]{v,1});
+        Deque<Integer> queue = new ArrayDeque<>();
+        queue.add(v);
         visited[v] = true;
         int maxCnt = 1;
         
         while(!queue.isEmpty()){
-            int[] dv = queue.poll();
+            int dv = queue.poll();
             
             for(int i=1;i<=n;i++){
-                if(arr[dv[0]][i] && !visited[i]){
+                if(arr[dv][i] && !visited[i]){
                     visited[i] = true;
-                    queue.add(new int[]{i,dv[1]+1});
+                    queue.add(i);
                     maxCnt++;
                 }
             }
