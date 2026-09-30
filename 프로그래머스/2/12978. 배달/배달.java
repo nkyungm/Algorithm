@@ -1,74 +1,72 @@
 import java.util.*;
 class Solution {
-    static int[][] graph;
-    static int[] dist;
+    static int[] distance;
+    static List<Node>[] graph;
     public int solution(int N, int[][] road, int K) {
-        int answer = 1;
-        graph = new int[N][N];
-        dist = new int[N];
+        int answer = 0;
+        graph = new ArrayList[N+1];
         
-        for(int i=0;i<N;i++){
-            dist[i] = 500001;
+        for(int i=0;i<=N;i++){
+            graph[i] = new ArrayList<>();
         }
         
-        // 아니면 BFS에서 만족하지 않으면 방문체크 풀기..?
-        // 다익스트라
-        // 방문체크 어디서 풀기? : queue poll 시점
-        // 실제 큐 넣을때 크기 안되면 아예 안넣으면 되자나
-        
+        // 2. graph안에 road 넣기
         for(int i=0;i<road.length;i++){
-            int n1 = road[i][0]-1;
-            int n2 = road[i][1]-1;
-            int d = road[i][2];
-            // 여러개 있는것은 작은거 넣기
-            if(graph[n1][n2] > 0){
-                graph[n1][n2] = Math.min(graph[n1][n2], d);
-                graph[n2][n1] = Math.min(graph[n2][n1], d);
-            }else if(graph[n1][n2] == 0) {
-                graph[n1][n2] = d;
-                graph[n2][n1] = d;
-            }
+            int[] r = road[i];
+            graph[r[0]].add(new Node(r[1],r[2]));
+            graph[r[1]].add(new Node(r[0],r[2]));
         }
         
-        BFS(N, K, 0);
-        
-        // 배달 가능 찾기
-        for(int i=1;i<N;i++){
-            if(dist[i] <= K) answer++;
+        go(N);
+        for(int i=1;i<=N;i++){
+            if(distance[i] <= K) answer++;
         }
-        
+
         return answer;
     }
-    static void BFS(int N, int K, int start){
-        Queue<Node> queue = new PriorityQueue<>((o1,o2) -> Integer.compare(o1.sum,o2.sum));
-        queue.add(new Node(start,0));
+    static void go(int N){
+        PriorityQueue<Node> pq = new PriorityQueue<>((o1,o2)->{
+            return o1.dis - o2.dis;
+        });
+        boolean[] visited = new boolean[N+1];
+        distance = new int[N+1];
+        // distance 값 무한대로 넣기
+        Arrays.fill(distance,Integer.MAX_VALUE);
         
-        while(!queue.isEmpty()){
-            Node v = queue.poll();
-            // 어차피 queue 넣을때 sum 체크(K에 맞는것만 넣을것임)
-            
-            int idx = v.idx;
-            int sum = v.sum;
-            
-            for(int i=0;i<N;i++){
-                int distance = graph[idx][i];
-                // 조건 : 방문 여부, 연결되어있는지(0이상),K 안넘는지
-                if(distance ==0) continue;
-                if(distance + sum > K) continue;
-                if(distance + sum < dist[i]){
-                    queue.add(new Node(i,distance+sum));
-                    dist[i] = distance + sum;
+        //1.출발지 넣기
+        pq.add(new Node(1,0));
+        distance[1] = 0;
+
+        while(!pq.isEmpty()){
+            Node nd = pq.poll();
+            // 2.큐에서 꺼냈을때 방문 처리
+            // 방문처리(이미 방문 한 경우 넘기기)
+            if(visited[nd.idx]) continue;
+            visited[nd.idx] = true;
+
+            // 3. 연결된 마을 pq에 넣기
+            for(int i=0;i<graph[nd.idx].size();i++){
+                Node toNd = graph[nd.idx].get(i);
+                // 아직 방문하지 않은 경우에
+                if(visited[toNd.idx]) continue;
+                // 4. 거리 갱신
+                if(distance[toNd.idx] > nd.dis + toNd.dis){
+                    distance[toNd.idx] = nd.dis + toNd.dis;
+                    pq.add(new Node(toNd.idx,nd.dis + toNd.dis));
                 }
+                
             }
         }
+        
         
     }
     static class Node{
         int idx;
-        int sum;
-        Node(int idx,int sum){
+        int dis;
+        
+        public Node(int idx,int dis){
             this.idx = idx;
-            this.sum = sum;
+            this.dis =dis;
         }
     }
 }
