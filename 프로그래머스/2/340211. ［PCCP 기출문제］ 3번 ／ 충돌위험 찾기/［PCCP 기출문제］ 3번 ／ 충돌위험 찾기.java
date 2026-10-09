@@ -5,8 +5,10 @@ class Solution {
         int answer = 0;
         
         // [시간][r][c]
-        int maxTime = (routes[0].length - 1) * 198 + 1;
-        int[][][] visited = new int[maxTime][101][101];
+        // int maxTime = (routes[0].length - 1) * 198 + 1;
+        // int[][][] visited = new int[maxTime][101][101];
+        // 개선 : 메모리 누수로 HashMap으로 변경
+        HashMap<Robot,Integer> map = new HashMap<>();
         
         // 1. routes 차례대로 구하기
         for(int i=0;i<routes.length;i++){
@@ -25,8 +27,15 @@ class Solution {
                 
                 // 시작 지점 0초도 충돌지점으로 체크
                 if(time ==0){
-                    visited[time][r][c] +=1;
-                    if(visited[time][r][c] ==2){
+                    // visited[time][r][c] +=1;
+                    // if(visited[time][r][c] ==2){
+                    //     answer++;
+                    // }
+                    Robot rb = new Robot(time,r,c);
+                    int count = map.getOrDefault(rb,0)+1;
+                    map.put(rb,count);
+                    
+                    if(count==2){
                         answer++;
                     }
                 }
@@ -49,8 +58,15 @@ class Solution {
                         }
                     }
                     time++;
-                    visited[time][r][c] +=1;
-                    if(visited[time][r][c] ==2){
+                    // visited[time][r][c] +=1;
+                    // if(visited[time][r][c] ==2){
+                    //     answer++;
+                    // }
+                    Robot rb = new Robot(time,r,c);
+                    int count = map.getOrDefault(rb,0)+1;
+                    map.put(rb,count);
+                    
+                    if(count==2){
                         answer++;
                     }
                 }
@@ -58,5 +74,30 @@ class Solution {
         }
         
         return answer;
+    }
+    static class Robot{
+        int time;
+        int r;
+        int c;
+        
+        public Robot(int time, int r, int c ){
+            this.time = time;
+            this.r = r;
+            this.c =c;
+        }
+        
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof Robot)) return false;
+
+            Robot other = (Robot) obj;
+
+            return this.time == other.time
+                && this.r == other.r
+                && this.c == other.c;
+        }
+        public int hashCode() {
+            return Objects.hash(time, r, c);
+        }
     }
 }
