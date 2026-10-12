@@ -1,28 +1,41 @@
 import java.util.*;
-
 class Solution {
     public int solution(int[] scoville, int K) {
         int answer = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> a - b);
+        // 종료 조건 
+        // 모든 음식 K이상 못 만드는 경우 -> 스코빌 1개 < K => -1
+        // 맨 앞 스코빌 >= K -> 종료 
         
-        for(int i : scoville) pq.offer(i);
+        // stack 사용
+        // stack에 개수 1개면 종료
+        // 1. 첫번째 꺼냈을때 스코빌 >=K 면 종료
+        // 2. 아니면 1,2번째 꺼내서 계산하고 다시 넣기
         
-        while(!pq.isEmpty() && pq.size() >= 2){
-            // 꺼냈을때 K이상이면 종료
-            if(pq.peek() >= K) return answer;
-            
-            // 가장 작은 + (두번쨰 작은 *2) 해서 다시 넣기
-            int min1 = pq.poll();
-            int min2 = pq.poll();
-            
-            pq.offer(min1 + min2 * 2);
-            
-            // 횟수 증가
-            answer++;
+        // 놓친 부분 : 정렬!!!
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        // push pop
+        // 1. 일단 스택에 다 넣기 (반대로)
+        for(int i=scoville.length-1;i>=0;i--){
+            pq.add(scoville[i]);
         }
         
-        // K 안넘으면 -1
-        if(pq.peek() < K) answer = -1;
+        while(pq.size() >= 2){
+            int food1 = pq.poll();
+            int food2 = pq.poll();
+            
+            if(food1 >= K){
+                return answer;
+            }
+            answer++;
+            int mix = food1 + food2 *2;
+            pq.add(mix);
+        }
+        
+        int fn = pq.poll();
+        if(fn < K){
+            return -1;
+        }
         
         return answer;
     }
